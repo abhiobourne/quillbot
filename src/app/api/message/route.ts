@@ -11,16 +11,12 @@ export const POST = async (req: NextRequest) => {
   const user = await getUser();
 
   const { id: userId } = user || {};
-
   if (!userId) return NextResponse.json("Unauthorized", { status: 401 });
 
   const { fileId, message } = SendMessageValidator.parse(body);
 
   const file = await db.file.findFirst({
-    where: {
-      id: fileId,
-      userId,
-    },
+    where: { id: fileId, userId },
   });
 
   if (!file) return NextResponse.json("Not Found", { status: 404 });
