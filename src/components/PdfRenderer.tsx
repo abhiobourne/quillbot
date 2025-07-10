@@ -19,8 +19,8 @@ interface PdfRendererProps {
 
 const PdfRenderer = ({ url }: PdfRendererProps) => {
   useEffect(() => {
-    // Ensure this runs on client-side only and sets the correct worker path
-    pdfjs.GlobalWorkerOptions.workerSrc = `${process.env.PUBLIC_URL}/pdf.worker.min.js`;
+    // Hardcode the worker version to prevent mismatch errors
+    pdfjs.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.3.122/pdf.worker.min.js";
   }, []);
 
   const { width, ref } = useResizeDetector();
@@ -99,7 +99,7 @@ const PdfRenderer = ({ url }: PdfRendererProps) => {
       {/* PDF Viewer */}
       <div className="flex-1 w-full h-full p-4 overflow-auto">
         <div ref={ref}>
-          <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.3.122/build/pdf.worker.min.js">
+          <Worker workerUrl="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.3.122/pdf.worker.min.js">
             <div className="mx-auto border border-gray-300 rounded shadow-sm" style={{ width: width ? `${width}px` : '750px' }}>
               {/* Apply the zoom plugin to the Viewer */}
               <Viewer fileUrl={`https://utfs.io/f/${url}`} plugins={[zoomPluginInstance]} />
